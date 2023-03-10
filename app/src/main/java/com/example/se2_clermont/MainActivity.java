@@ -33,14 +33,34 @@ public class MainActivity extends AppCompatActivity {
         output = (TextView) findViewById(R.id.output);
         button = (Button) findViewById(R.id.button);
         buttonCalc = (Button) findViewById(R.id.buttonCalc);
+        buttonCalc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String in = input.getText().toString();
+                int sum = 0;
+                for (int i = 0; i < input.length(); i++) {
+                    sum += Integer.parseInt(in.charAt(i) + "");
+                }
+                output.setText(Integer.toBinaryString(sum));
+
+            }
+        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                       Network thread = new Network();
-                       Thread backgroundThread = new Thread(thread);
-                       backgroundThread.start();
+                try {
+                    if(Integer.parseInt(input.getText().toString())<=0 ){
+                        Toast.makeText(getBaseContext(), "Bitte gib eine Zahl größer 0 ein", Toast.LENGTH_LONG).show();
+                    }else{
+                        Network thread = new Network();
+                        Thread backgroundThread = new Thread(thread);
+                        backgroundThread.start();
+                    }
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getBaseContext(), "Nur Ziffern erlaubt", Toast.LENGTH_LONG).show();
+                }
 
             }
         });
